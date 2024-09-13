@@ -12,8 +12,26 @@ const discounts = [0, 5, 10, 15, 20, 25, 30];
 
 // Route to get a discount
 app.get('/api/spin', (req, res) => {
-  const discount = discounts[Math.floor(Math.random() * discounts.length)];
-  res.json({ discount });
+
+    const weights = [10, 1, 1, 1, 1, 1, 1];
+    const totalWeight = weights.reduce((acc, weight) => acc + weight , 0);
+
+    //generating random number from 0 and total wt
+    const random = Math.random() * totalWeight;
+
+    let cumulativeWeight = 0;
+  let selectedDiscount;
+
+  for (let i = 0; i < discounts.length; i++) {
+    cumulativeWeight += weights[i];
+    if (random <= cumulativeWeight) {
+      selectedDiscount = discounts[i];
+      break;
+    }
+  }
+
+  res.json({ discount: selectedDiscount });
+
 });
 
 app.listen(PORT, () => {
