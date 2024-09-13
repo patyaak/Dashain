@@ -13,7 +13,7 @@ const discounts = [0, 5, 10, 15, 20, 25, 30];
 // Route to get a discount
 app.get('/api/spin', (req, res) => {
 
-    const weights = [10, 1, 1, 1, 1, 1, 1];
+    const weights = [80, 1, 1, 1, 1, 1, 1];
     const totalWeight = weights.reduce((acc, weight) => acc + weight , 0);
 
     //generating random number from 0 and total wt
