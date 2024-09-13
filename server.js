@@ -8,30 +8,63 @@ const PORT = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-const discounts = [0, 5, 10, 15, 20, 25, 30];
+// Define the rewards and their probabilities
+const rewards = [
+  // Column 1
+  { type: 'discount', amount: 100, probability: 0.50 },
+  { type: 'discount', amount: 200, probability: 0.30 },
+  { type: 'discount', amount: 500, probability: 0.20 },
 
-// Route to get a discount
-app.get('/api/spin', (req, res) => {
+  // Column 2
+  { type: 'none', probability: 0.95 },
+  { type: 'discount', amount: 500, probability: 0.02 },
+  { type: 'discount', amount: 750, probability: 0.02 },
+  { type: 'product', item: 'Promate Lima Earbuds', probability: 0.01 },
 
-    const weights = [80, 1, 1, 1, 1, 1, 1];
-    const totalWeight = weights.reduce((acc, weight) => acc + weight , 0);
+  // Column 3
+  { type: 'none', probability: 0.995 },
+  { type: 'voucher', amount: 5000, probability: 0.004 },
+  { type: 'voucher', amount: 10000, probability: 0.0001 },
+  { type: 'item', item: 'Honor 90', probability: 0.000025 },
+  { type: 'item', item: 'PS5', probability: 0.000025 },
+  { type: 'item', item: '55-inch Samsung QLED TV', probability: 0.000025 },
+];
 
-    //generating random number from 0 and total wt
-    const random = Math.random() * totalWeight;
+// Function to select a reward based on probabilities
+function getReward(rewardSet) {
+  const totalProbability = rewardSet.reduce((sum, reward) => sum + (reward.probability || 0), 0);
+  const random = Math.random() * totalProbability;
 
-    let cumulativeWeight = 0;
-  let selectedDiscount;
-
-  for (let i = 0; i < discounts.length; i++) {
-    cumulativeWeight += weights[i];
-    if (random <= cumulativeWeight) {
-      selectedDiscount = discounts[i];
-      break;
+  let cumulativeProbability = 0;
+  for (const reward of rewardSet) {
+    cumulativeProbability += reward.probability || 0;
+    if (random <= cumulativeProbability) {
+      return reward;
     }
   }
 
-  res.json({ discount: selectedDiscount });
+  return { type: 'none' }; // Fallback in case of an error
+}
 
+// Route to get a reward
+app.get('/api/spin', (req, res) => {
+  const column = parseInt(req.query.column, 10) || 0;
+  let columnRewards = [];
+
+  // Define rewards for each column
+  if (column === 0) {
+    columnRewards = rewards.slice(0, 3);
+  } else if (column === 1) {
+    columnRewards = rewards.slice(3, 7);
+  } else if (column === 2) {
+    columnRewards = rewards.slice(7);
+  } else {
+    return res.status(400).json({ error: 'Invalid column number' });
+  }
+
+  // Choose a reward from the selected column
+  const reward = getReward(columnRewards);
+  res.json({ reward });
 });
 
 app.listen(PORT, () => {
