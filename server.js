@@ -21,7 +21,7 @@ const categoryA = {
   ],
   column2: [
     { type: 'none', probability: 0.90, index : 0},
-    { type: 'product', item: 'Earbuds', probability: 0.02, index: 1 },
+    { type: 'product', item: 'PromateLima', probability: 0.02, index: 1 },
     { type: 'product', item: 'ChargingDockCable', probability: 0.02, index: 2 },
     { type: 'product', item: 'Powerbank', probability: 0.01 , index: 3},
     { type: 'product', item: 'Headphone', probability: 0.01 , index: 4},
@@ -58,7 +58,7 @@ const categoryB = {
   ],
   column2: [
     { type: 'none', probability: 0.80, index : 0},
-    { type: 'product', item: 'Earbuds', probability: 0.05, index: 1 },
+    { type: 'product', item: 'PromateLima', probability: 0.05, index: 1 },
     { type: 'product', item: 'ChargingDockCable', probability: 0.03, index: 2 },
     { type: 'product', item: 'Powerbank', probability: 0.02 , index: 3},
     { type: 'product', item: 'Headphone', probability: 0.02 , index: 4},
@@ -95,7 +95,7 @@ const categoryC = {
   ],
   column2: [
     { type: 'none', probability: 0.75, index : 0},
-    { type: 'product', item: 'Earbuds', probability: 0.07, index: 1 },
+    { type: 'product', item: 'PromateLima', probability: 0.07, index: 1 },
     { type: 'product', item: 'ChargingDockCable', probability: 0.06, index: 2 },
     { type: 'product', item: 'Powerbank', probability: 0.02 , index: 3},
     { type: 'product', item: 'Headphone', probability: 0.02 , index: 4},
